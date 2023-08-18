@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BlogService } from "../services/blog-service";
 
 const CreateBlog = () => {
   const [formData, setFormData] = useState({ title: '', description: '', media: '' });
   const [validated, setValidated] = useState(false);
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleFormDataChange = (event) => {
@@ -25,20 +26,39 @@ const CreateBlog = () => {
     if (form.checkValidity() === false) {
       setValidated(true);
     } else {
-      BlogService.create(formData).then((res) => {
-        if (res) {
-          toast.warn("Woohoo, blog created successfully!");
-          navigate("/");
-        } else {
-          toast.error("Hoo, something wrong!");
-        }
-      });
+      if (id) {
+        BlogService.update(id, formData).then((res) => {
+          if (res) {
+            toast.warn("Woohoo, blog updated successfully!");
+            navigate("/");
+          } else {
+            toast.error("Hoo, something wrong!");
+          }
+        });
+      } else {
+        BlogService.create(formData).then((res) => {
+          if (res) {
+            toast.warn("Woohoo, blog created successfully!");
+            navigate("/");
+          } else {
+            toast.error("Hoo, something wrong!");
+          }
+        });
+      }
     }
   };
 
+  useEffect(() => {
+    BlogService.get(id).then((res) => {
+      if (res) {
+        setFormData({ title: res?.title, description: res?.description, media: res?.media });
+      }
+    });
+  }, [id]);
+
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit} className="form d-flex flex-column m-auto pt-5" >
-      <h3 className="text-center text-warning pb-4" >Create Blog</h3>
+      <h3 className="text-center text-warning pb-4" >{id ? 'Update' : 'Create'} Blog</h3>
 
       <Form.Group className="mb-3">
         <Form.Label>Title</Form.Label>
@@ -55,7 +75,7 @@ const CreateBlog = () => {
         <Form.Control type="text" name="media" value={formData.media} onChange={handleFormDataChange} required />
       </Form.Group>
 
-      <Button type="submit" variant="outline-warning mt-2 align-self-end">Create</Button>
+      <Button type="submit" variant="outline-warning mt-2 align-self-end">{id ? 'Update' : 'Create'}</Button>
     </Form>
   );
 };

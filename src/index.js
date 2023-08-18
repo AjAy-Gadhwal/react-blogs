@@ -29,6 +29,10 @@ const router = createBrowserRouter([
         element: <CreateBlog />,
       },
       {
+        path: "edit/:id",
+        element: <CreateBlog />,
+      },
+      {
         path: "register",
         element: <Register />,
       },

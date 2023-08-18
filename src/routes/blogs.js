@@ -21,7 +21,7 @@ const Blogs = () => {
 
   useEffect(() => {
     getAll();
-  }, []);
+  }, [getAll]);
 
   const removeBlog = (id) => {
     BlogService.remove(id).then((res) => {
@@ -66,7 +66,9 @@ const Blogs = () => {
                           }
                         </td>
                         <td className="d-flex justify-content-end align-items-center gap-2" >
-                          <Button variant="success" size="sm">Edit</Button>
+                          <Link to={'/edit/' + blog?._id}>
+                            <Button variant="success" size="sm">Edit</Button>
+                          </Link>
                           <Button variant="danger" size="sm" onClick={() => removeBlog(blog?._id)} >Delete</Button>
                         </td>
                       </tr>
