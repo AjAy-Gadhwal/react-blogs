@@ -1,22 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from "react-router-dom";
 import { BlogService } from "../services/blog-service";
 import Blog from '../components/blog/blog';
 import { Button, Table } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
 
-  useEffect(() => {
+  const getAll = useCallback(() => {
     BlogService.getAll().then((res) => {
       console.log('Res : ', res?.length);
       if (res?.length > 0) {
         setBlogs(() => res);
       }
     });
+  }, [])
+
+  useEffect(() => {
+    getAll();
   }, []);
+
+  const removeBlog = (id) => {
+    BlogService.remove(id).then((res) => {
+      toast.warn("Blog removed");
+      getAll();
+    });
+  };
 
   return (
     <>
@@ -55,7 +67,7 @@ const Blogs = () => {
                         </td>
                         <td className="d-flex justify-content-end align-items-center gap-2" >
                           <Button variant="success" size="sm">Edit</Button>
-                          <Button variant="danger" size="sm">Delete</Button>
+                          <Button variant="danger" size="sm" onClick={() => removeBlog(blog?._id)} >Delete</Button>
                         </td>
                       </tr>
                     ))
