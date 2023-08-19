@@ -9,6 +9,7 @@ import { BlogService } from "../../services/blog-service";
 import { UserService } from "../../services/user-service";
 import { useState } from "react";
 import { Form, InputGroup, ListGroup } from "react-bootstrap";
+import { WhatsappShareButto } from "react-share";
 
 const borderType = [
   'primary',
@@ -89,6 +90,8 @@ const Blog = (props) => {
             >
               <ChatDots size={20} /> Comment
             </Button>
+
+            <WhatsappShareButton />
           </Col>
         </Row>
 

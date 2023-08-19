@@ -16,6 +16,7 @@ import NotFound from './pages/auth/notFound';
 import AuthGuard from './guards/authGuard';
 import AdminAuthGuard from './guards/adminAuthGuard';
 import LoginGuard from './guards/loginGuard';
+import BlogDetail from './pages/blog/blogDetail';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             <Blogs />
           </AuthGuard>
         ),
+      },
+      {
+        path: "blog/:id",
+        element: <BlogDetail />,
       },
       {
         path: "create",

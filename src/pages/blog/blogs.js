@@ -36,7 +36,11 @@ const Blogs = () => {
     <>
       {
         role !== 'admin' ? (
-          blogs.map((blog) => <Blog blog={blog} key={blog?._id} />)
+          blogs.map((blog) => (
+            <div key={blog?._id} onClick={() => navigate(`/blog/${blog?._id}`)} >
+              <Blog blog={blog}/>
+            </div>
+          ))
         ) : (
           <>
             <Button variant="warning" size="sm" className="mb-3 d-flex align-items-center ms-auto" onClick={() => navigate('/create')}>
