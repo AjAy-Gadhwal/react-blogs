@@ -4,12 +4,12 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import './blog.css';
 import { toast } from "react-toastify";
-import { ChatDots, HandThumbsUp, HandThumbsUpFill, Send } from "react-bootstrap-icons";
+import { ChatDots, HandThumbsUp, HandThumbsUpFill, Send, Share } from "react-bootstrap-icons";
 import { BlogService } from "../../services/blog-service";
 import { UserService } from "../../services/user-service";
 import { useState } from "react";
-import { Form, InputGroup, ListGroup } from "react-bootstrap";
-import { WhatsappShareButton } from "react-share";
+import { Form, InputGroup, ListGroup, Modal } from "react-bootstrap";
+import { FacebookIcon, FacebookShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 
 const borderType = [
   'primary',
@@ -24,6 +24,8 @@ const Blog = (props) => {
   const [blogObj, setBlogObj] = useState(blog);
   const [isShowComments, setIsShowComments] = useState(false);
   const [comment, setComment] = useState('');
+  const [show, setShow] = useState(false);  
+  const location = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port: ''}`;
 
   const date = new Date(blogObj?.createdAt);
   const formattedDate = date.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
@@ -61,71 +63,104 @@ const Blog = (props) => {
     }
   };
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <Card border={borderType[borderTypeIndex]} className="blog-card mb-4 mx-auto">
-      <Card.Img variant="top" src="https://www.gstatic.com/webp/gallery/1.jpg" />
+    <>
+      <Card border={borderType[borderTypeIndex]} className="blog-card mb-4 mx-auto">
+        <Card.Img variant="top" src="https://www.gstatic.com/webp/gallery/1.jpg" />
 
-      <Card.Body>
-        <Card.Title>{blogObj?.title}</Card.Title>
-        <Card.Text>{blogObj?.description}</Card.Text>
-      </Card.Body>
+        <Card.Body>
+          <Card.Title>{blogObj?.title}</Card.Title>
+          <Card.Text>{blogObj?.description}</Card.Text>
+        </Card.Body>
 
-      <Card.Footer>
-        <Row>
-          <Col>
-            <small className="text-muted">{formattedDate} posted</small>
-          </Col>
+        <Card.Footer>
+          <Row>
+            <Col>
+              <small className="text-muted">{formattedDate} posted</small>
+            </Col>
 
-          <Col className="d-flex justify-content-end align-items-center gap-3">
-            <Button 
-              variant={isLiked ? 'danger' : 'outline-danger'} className="px-2 py-1 d-flex justify-content-center align-items-center gap-1" 
-              onClick={likOrUnlike}
-            >
-              { isLiked ? <HandThumbsUpFill size={20} /> : <HandThumbsUp size={20} /> } Like 
-            </Button>
+            <Col className="d-flex justify-content-end align-items-center gap-3">
+              <Button 
+                variant={isLiked ? 'danger' : 'outline-danger'} className="px-2 py-1 d-flex justify-content-center align-items-center gap-1" 
+                onClick={likOrUnlike}
+              >
+                { isLiked ? <HandThumbsUpFill size={20} /> : <HandThumbsUp size={20} /> } Like 
+              </Button>
 
-            <Button 
-              variant='primary' className="px-2 py-1 d-flex justify-content-center align-items-center gap-1" 
-              onClick={() => setIsShowComments(!isShowComments)}
-            >
-              <ChatDots size={20} /> Comment
-            </Button>
+              <Button 
+                variant='primary' className="px-2 py-1 d-flex justify-content-center align-items-center gap-1" 
+                onClick={() => setIsShowComments(!isShowComments)}
+              >
+                <ChatDots size={20} /> Comment
+              </Button>
 
-            <WhatsappShareButton />
-          </Col>
-        </Row>
+              <Button 
+                variant='success' className="px-2 py-1 d-flex justify-content-center align-items-center gap-1" 
+                onClick={handleShow}
+              >
+                <Share size={16} /> Share
+              </Button>              
+            </Col>
+          </Row>
 
-        {
-          isShowComments && (
-            <>
-              <InputGroup className="mt-3" >
-                <Form.Control type="text" placeholder="Please add comment here" value={comment} onChange={(e) => setComment(e.target.value)} />
-                <Button variant='outline-secondary' disabled={!comment} onClick={sendComment} ><Send size={20} /></Button>
-              </InputGroup>        
-      
-              {
-                blogObj?.comments?.length > 0 && (
-                  <div className="pt-3" >
-                    Comments
-      
-                    <ListGroup>
-                      {
-                        blogObj?.comments.map((com) => (
-                          <ListGroup.Item key={com?._id}>
-                            <div className="fw-bold">{com?.userId?.username}</div>
-                            {com?.comment}
-                          </ListGroup.Item>
-                        ))
-                      }
-                    </ListGroup>
-                  </div>
-                )
-              }                    
-            </>
-          )
-        }
-      </Card.Footer>
-    </Card>
+          {
+            isShowComments && (
+              <>
+                <InputGroup className="mt-3" >
+                  <Form.Control type="text" placeholder="Please add comment here" value={comment} onChange={(e) => setComment(e.target.value)} />
+                  <Button variant='outline-secondary' disabled={!comment} onClick={sendComment} ><Send size={20} /></Button>
+                </InputGroup>        
+        
+                {
+                  blogObj?.comments?.length > 0 && (
+                    <div className="pt-3" >
+                      Comments
+        
+                      <ListGroup>
+                        {
+                          blogObj?.comments.map((com) => (
+                            <ListGroup.Item key={com?._id}>
+                              <div className="fw-bold">{com?.userId?.username}</div>
+                              {com?.comment}
+                            </ListGroup.Item>
+                          ))
+                        }
+                      </ListGroup>
+                    </div>
+                  )
+                }                    
+              </>
+            )
+          }
+        </Card.Footer>
+      </Card>
+    
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Share</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex gap-3">
+          <FacebookShareButton url={`${location}/blog/${blogObj?._id}`} quote={blog?.title}>
+            <FacebookIcon size={32} />
+          </FacebookShareButton>  
+
+          <WhatsappShareButton url={`${location}/blog/${blogObj?._id}`} quote={blog?.title}>
+            <WhatsappIcon size={32} />
+          </WhatsappShareButton>  
+
+          <TwitterShareButton url={`${location}/blog/${blogObj?._id}`} quote={blog?.title}>
+            <TwitterIcon size={32} />
+          </TwitterShareButton>
+
+          <TelegramShareButton url={`${location}/blog/${blogObj?._id}`} quote={blog?.title}>
+            <TelegramIcon size={32} />
+          </TelegramShareButton>  
+        </Modal.Body>        
+      </Modal>
+    </>
   );
 };
 
