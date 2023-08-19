@@ -10,6 +10,7 @@ import { UserService } from "../../services/user-service";
 import { useState } from "react";
 import { Form, InputGroup, ListGroup, Modal } from "react-bootstrap";
 import { FacebookIcon, FacebookShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
+import { Config } from "../../constants/config";
 
 const borderType = [
   'primary',
@@ -69,7 +70,7 @@ const Blog = (props) => {
   return (
     <>
       <Card border={borderType[borderTypeIndex]} className="blog-card mb-4 mx-auto">
-        <Card.Img variant="top" src="https://www.gstatic.com/webp/gallery/1.jpg" />
+        <Card.Img variant="top" src={`${Config.SERVER_URL}${blog?.media}`} />
 
         <Card.Body>
           <Card.Title>{blogObj?.title}</Card.Title>

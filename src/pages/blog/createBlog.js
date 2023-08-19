@@ -7,12 +7,18 @@ import { BlogService } from "../../services/blog-service";
 
 const CreateBlog = () => {
   const [formData, setFormData] = useState({ title: '', description: '', media: '' });
+  const [media, setMedia] = useState(null);
   const [validated, setValidated] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const handleFormDataChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
+    const file = files?.[0];
+
+    if (file) {
+      setMedia(file);
+    }
 
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
@@ -27,8 +33,14 @@ const CreateBlog = () => {
       setValidated(true);
       toast.error("Please enter valid data.");
     } else {
+      console.log('formData : ', formData);
+      const formDataObj = new FormData();
+      formDataObj.append('title', formData.title);
+      formDataObj.append('description', formData.description);
+      formDataObj.append('media', media);
+
       if (id) {
-        BlogService.update(id, formData).then((res) => {
+        BlogService.update(id, formDataObj).then((res) => {
           if (res) {
             toast.success("Woohoo, blog updated successfully!");
             navigate("/");
@@ -37,7 +49,7 @@ const CreateBlog = () => {
           }
         });
       } else {
-        BlogService.create(formData).then((res) => {
+        BlogService.create(formDataObj).then((res) => {
           if (res) {
             toast.success("Woohoo, blog created successfully!");
             navigate("/");
@@ -53,7 +65,7 @@ const CreateBlog = () => {
     if (id) {
       BlogService.get(id).then((res) => {
         if (res) {
-          setFormData({ title: res?.title, description: res?.description, media: res?.media });
+          setFormData({ title: res?.title, description: res?.description, media: '' });
         }
       });
     }
@@ -75,7 +87,7 @@ const CreateBlog = () => {
 
       <Form.Group className="mb-3">
         <Form.Label>Media</Form.Label>
-        <Form.Control type="text" name="media" value={formData.media} onChange={handleFormDataChange} required />
+        <Form.Control type="file" name="media" value={formData.media} onChange={handleFormDataChange} required />
       </Form.Group>
 
       <Button type="submit" variant="outline-warning mt-2 align-self-end">{id ? 'Update' : 'Create'}</Button>

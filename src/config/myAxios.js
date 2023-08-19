@@ -1,7 +1,8 @@
 import axios from "axios";
+import { Config } from "../constants/config";
 
 const MyAxios = axios.create({
-  baseURL: 'https://node-blogs-1e7dyt5st-ajay-gadhwal.vercel.app/api/v1',
+  baseURL: `${Config.SERVER_URL}/api/v1`,
 });
 
 MyAxios.interceptors.request.use(

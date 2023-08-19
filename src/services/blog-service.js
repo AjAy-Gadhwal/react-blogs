@@ -6,12 +6,12 @@ const getAll = async () => {
 };
 
 const create = async (body) => {
-  const res = await MyAxios.post('/blogs', body);
+  const res = await MyAxios.post('/blogs', body, { headers: { "Content-type": "multipart/form-data" }});
   return res?.data ? res?.data : {};
 };
 
 const update = async (id, body) => {
-  const res = await MyAxios.put(`/blogs/${id}`, body);
+  const res = await MyAxios.put(`/blogs/${id}`, body, { headers: { "Content-type": "multipart/form-data" }});
   return res?.data ? res?.data : {};
 };
 

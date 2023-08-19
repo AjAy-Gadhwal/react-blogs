@@ -5,6 +5,7 @@ import Blog from '../../components/blog/blog';
 import { Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { PencilFill, Plus, Trash2Fill } from 'react-bootstrap-icons';
+import { Config } from '../../constants/config';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,7 +14,6 @@ const Blogs = () => {
 
   const getAll = useCallback(() => {
     BlogService.getAll().then((res) => {
-      console.log('Res : ', res?.length);
       if (res?.length > 0) {
         setBlogs(() => res);
       }
@@ -63,11 +63,13 @@ const Blogs = () => {
               <tbody>
                 {
                   blogs.map((blog, i) => (
-                    <tr>
+                    <tr key={blog?._id}>
                       <td>{i + 1}</td>
                       <td>{blog?.title}</td>
                       <td>{blog?.description}</td>
-                      <td>{blog?.media}</td>
+                      <td>
+                        <img src={`${Config.SERVER_URL}${blog?.media}`} width="150" alt={blog?.title} />
+                      </td>
                       <td>{blog?.likes?.length || 0}</td>
                       <td>{blog?.comments?.length || 0}</td>
                       <td>
