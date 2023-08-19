@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { UserService } from "../services/user-service";
+import { UserService } from "../../services/user-service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +27,7 @@ const Login = () => {
     } else {
       UserService.login(formData).then((res) => {
         if (res?.accessToken) {
-          localStorage.setItem('accessToken', `Bearer ${res?.accessToken}`);
+          localStorage.setItem('accessToken', res?.accessToken);
           localStorage.setItem('role', res.role);
           localStorage.setItem('user', JSON.stringify(res));
 

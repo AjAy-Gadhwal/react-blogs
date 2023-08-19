@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { UserService } from "../services/user-service";
+import { UserService } from "../../services/user-service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 

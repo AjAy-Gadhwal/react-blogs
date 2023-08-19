@@ -2,10 +2,15 @@ import axios from "axios";
 
 const MyAxios = axios.create({
   baseURL: 'http://localhost:3001/api/v1',
-  headers: {
-    Authorization: localStorage.getItem('accessToken')
-  }
 });
+
+MyAxios.interceptors.request.use(
+  config => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
 MyAxios.interceptors.response.use(
   (res) => {

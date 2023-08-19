@@ -7,38 +7,61 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import ErrorPage from './components/error-page';
-import Blogs from './routes/blogs';
-import Register from './routes/register';
-import Login from './routes/login';
+import Blogs from './pages/blog/blogs';
+import Register from './pages/auth/register';
+import Login from './pages/auth/login';
 import { ToastContainer } from 'react-toastify';
-import CreateBlog from './routes/createBlog';
+import CreateBlog from './pages/blog/createBlog';
+import NotFound from './pages/auth/notFound';
+import AuthGuard from './guards/authGuard';
+import AdminAuthGuard from './guards/adminAuthGuard';
+import LoginGuard from './guards/loginGuard';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "",
-        element: <Blogs />,
+        element: (
+          <AuthGuard>
+            <Blogs />
+          </AuthGuard>
+        ),
       },
       {
         path: "create",
-        element: <CreateBlog />,
+        element: (
+          <AdminAuthGuard>
+            <CreateBlog />
+          </AdminAuthGuard>
+        ),
       },
       {
         path: "edit/:id",
-        element: <CreateBlog />,
+        element: (
+          <AdminAuthGuard>
+            <CreateBlog />
+          </AdminAuthGuard>
+        )
       },
       {
         path: "register",
-        element: <Register />,
+        element: (
+          <LoginGuard>
+            <Register />
+          </LoginGuard>
+        ),
       },
       {
         path: "login",
-        element: <Login />,
+        element: (
+          <LoginGuard>
+            <Login />
+          </LoginGuard>
+        ),
       },
     ],
   },

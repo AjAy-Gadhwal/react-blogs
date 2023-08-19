@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { BlogService } from "../services/blog-service";
+import { BlogService } from "../../services/blog-service";
 
 const CreateBlog = () => {
   const [formData, setFormData] = useState({ title: '', description: '', media: '' });
@@ -49,11 +49,13 @@ const CreateBlog = () => {
   };
 
   useEffect(() => {
-    BlogService.get(id).then((res) => {
-      if (res) {
-        setFormData({ title: res?.title, description: res?.description, media: res?.media });
-      }
-    });
+    if (id) {
+      BlogService.get(id).then((res) => {
+        if (res) {
+          setFormData({ title: res?.title, description: res?.description, media: res?.media });
+        }
+      });
+    }
   }, [id]);
 
   return (

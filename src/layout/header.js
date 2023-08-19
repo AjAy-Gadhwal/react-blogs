@@ -1,14 +1,24 @@
+import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Header = () => {
+  const [accessToken, setAccessToken] = useState('');
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+  }, []);
 
   const logout = () => {
     localStorage.clear();
-    navigate('/login');
+    setTimeout(() => {
+      toast.warn("User successfully logout!");
+      navigate('/login');
+    }, 0);
   }
+
 
   return (
     <Navbar sticky="top" expand="lg" className="bg-dark">
