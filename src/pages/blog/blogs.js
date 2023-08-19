@@ -50,6 +50,8 @@ const Blogs = () => {
                   <th style={{ width: '200px' }}>title</th>
                   <th>description</th>
                   <th style={{ width: '150px' }}>media</th>
+                  <th>likes</th>
+                  <th>comments</th>
                   <th style={{ width: '100px' }}>Created At</th>
                   <th>Actions</th>
                 </tr>
@@ -62,6 +64,8 @@ const Blogs = () => {
                       <td>{blog?.title}</td>
                       <td>{blog?.description}</td>
                       <td>{blog?.media}</td>
+                      <td>{blog?.likes?.length || 0}</td>
+                      <td>{blog?.comments?.length || 0}</td>
                       <td>
                         {
                           new Date(blog?.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })
