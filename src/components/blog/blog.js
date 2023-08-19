@@ -9,7 +9,7 @@ import { BlogService } from "../../services/blog-service";
 import { UserService } from "../../services/user-service";
 import { useState } from "react";
 import { Form, InputGroup, ListGroup } from "react-bootstrap";
-import { WhatsappShareButto } from "react-share";
+import { WhatsappShareButton } from "react-share";
 
 const borderType = [
   'primary',
