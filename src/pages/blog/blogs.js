@@ -37,9 +37,7 @@ const Blogs = () => {
       {
         role !== 'admin' ? (
           blogs.map((blog) => (
-            <div key={blog?._id} onClick={() => navigate(`/blog/${blog?._id}`)} >
-              <Blog blog={blog}/>
-            </div>
+            <Blog blog={blog}/>            
           ))
         ) : (
           <>

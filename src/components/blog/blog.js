@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Form, InputGroup, ListGroup, Modal } from "react-bootstrap";
 import { FacebookIcon, FacebookShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { Config } from "../../constants/config";
+import { useNavigate } from "react-router-dom";
 
 const borderType = [
   'primary',
@@ -26,6 +27,7 @@ const Blog = (props) => {
   const [isShowComments, setIsShowComments] = useState(false);
   const [comment, setComment] = useState('');
   const [show, setShow] = useState(false);  
+  const navigate = useNavigate();
   const location = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port: ''}`;
 
   const date = new Date(blogObj?.createdAt);
@@ -70,15 +72,17 @@ const Blog = (props) => {
   return (
     <>
       <Card border={borderType[borderTypeIndex]} className="blog-card mb-4 mx-auto">
-        {
-          (blog?.media?.includes('jpg') || blog?.media?.includes('jpeg') || blog?.media?.includes('png') || blog?.media?.includes('gif')) ? (
-            <Card.Img variant="top" src={`${Config.SERVER_URL}${blog?.media}`} className="w-100" />
-          ) : (
-            <iframe className="w-100 rounded-top" src={`${Config.SERVER_URL}${blog?.media}`} title={blog?.title} />
-          )
-        }
+        <div key={blog?._id} onClick={() => navigate(`/blog/${blog?._id}`)}>
+          {
+            (blog?.media?.includes('jpg') || blog?.media?.includes('jpeg') || blog?.media?.includes('png') || blog?.media?.includes('gif')) ? (
+              <Card.Img variant="top" src={`${Config.SERVER_URL}${blog?.media}`} className="w-100" />
+            ) : (
+              <iframe className="w-100 rounded-top" src={`${Config.SERVER_URL}${blog?.media}`} title={blog?.title} />
+            )
+          }
+        </div>
 
-        <Card.Body>
+        <Card.Body onClick={() => navigate(`/blog/${blog?._id}`)}>
           <Card.Title>{blogObj?.title}</Card.Title>
           <Card.Text>{blogObj?.description}</Card.Text>
         </Card.Body>
