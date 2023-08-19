@@ -10,4 +10,12 @@ const login = async (body) => {
   return res?.data ? res?.data : {};
 };
 
-export const UserService = { register, login };
+const loginUser = () => {  
+  return JSON.parse(localStorage.getItem('user') || '{}');
+};
+
+const userId = () => {  
+  return loginUser()?._id;
+};
+
+export const UserService = { register, login, loginUser, userId };

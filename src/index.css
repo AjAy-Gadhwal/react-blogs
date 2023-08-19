@@ -54,6 +54,23 @@
   --bs-form-invalid-border-color: #ea868f;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--bs-warning-border-subtle); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bs-warning); 
+}
+
 .form {
   width: min(100%, 400px);
 }

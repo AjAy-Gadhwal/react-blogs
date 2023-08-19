@@ -25,4 +25,14 @@ const get = async (id) => {
   return res?.data ? res?.data : {};
 };
 
-export const BlogService = { getAll, create, update, remove, get };
+const like = async (id) => {
+  const res = await MyAxios.put(`/blogs/like/${id}`);
+  return res?.data ? res?.data : {};
+};
+
+const unlike = async (id) => {
+  const res = await MyAxios.put(`/blogs/unlike/${id}`);
+  return res?.data ? res?.data : {};
+};
+
+export const BlogService = { getAll, create, update, remove, get, like, unlike };

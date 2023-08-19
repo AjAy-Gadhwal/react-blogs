@@ -25,6 +25,7 @@ const CreateBlog = () => {
 
     if (form.checkValidity() === false) {
       setValidated(true);
+      toast.error("Please enter valid data.");
     } else {
       if (id) {
         BlogService.update(id, formData).then((res) => {
@@ -69,7 +70,7 @@ const CreateBlog = () => {
 
       <Form.Group className="mb-3">
         <Form.Label>Description</Form.Label>
-        <Form.Control type="text" name="description" value={formData.description} onChange={handleFormDataChange} required />
+        <Form.Control as="textarea" rows={3} name="description" value={formData.description} onChange={handleFormDataChange} required />
       </Form.Group>
 
       <Form.Group className="mb-3">

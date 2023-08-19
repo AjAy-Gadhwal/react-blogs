@@ -24,6 +24,7 @@ const Login = () => {
 
     if (form.checkValidity() === false) {
       setValidated(true);
+      toast.error("Please enter valid data.");
     } else {
       UserService.login(formData).then((res) => {
         if (res?.accessToken) {

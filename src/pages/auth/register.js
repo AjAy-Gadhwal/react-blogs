@@ -24,6 +24,7 @@ const Register = () => {
 
     if (form.checkValidity() === false) {
       setValidated(true);
+      toast.error("Please enter valid data.");
     } else {
       UserService.register(formData).then((res) => {
         if (res) {
