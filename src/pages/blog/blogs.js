@@ -68,7 +68,15 @@ const Blogs = () => {
                       <td>{blog?.title}</td>
                       <td>{blog?.description}</td>
                       <td>
-                        <img src={`${Config.SERVER_URL}${blog?.media}`} width="150" alt={blog?.title} />
+                        <div className="embed-responsive embed-responsive-1by1">
+                          {
+                            (blog?.media?.includes('jpg') || blog?.media?.includes('jpeg') || blog?.media?.includes('png') || blog?.media?.includes('gif')) ? (
+                              <img src={`${Config.SERVER_URL}${blog?.media}`} width="150" alt={blog?.title} />
+                            ) : (
+                              <iframe className="embed-responsive-item" src={`${Config.SERVER_URL}${blog?.media}`} width="150" title={blog?.title} />
+                            )
+                          }
+                        </div>
                       </td>
                       <td>{blog?.likes?.length || 0}</td>
                       <td>{blog?.comments?.length || 0}</td>

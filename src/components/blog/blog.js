@@ -70,7 +70,13 @@ const Blog = (props) => {
   return (
     <>
       <Card border={borderType[borderTypeIndex]} className="blog-card mb-4 mx-auto">
-        <Card.Img variant="top" src={`${Config.SERVER_URL}${blog?.media}`} />
+        {
+          (blog?.media?.includes('jpg') || blog?.media?.includes('jpeg') || blog?.media?.includes('png') || blog?.media?.includes('gif')) ? (
+            <Card.Img variant="top" src={`${Config.SERVER_URL}${blog?.media}`} className="w-100" />
+          ) : (
+            <iframe className="w-100 rounded-top" src={`${Config.SERVER_URL}${blog?.media}`} title={blog?.title} />
+          )
+        }
 
         <Card.Body>
           <Card.Title>{blogObj?.title}</Card.Title>

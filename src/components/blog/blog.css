@@ -1,3 +1,7 @@
 .blog-card {
   width: min(100%, 600px);
 }
+
+.blog-card iframe {
+  min-height: 350px;
+}
