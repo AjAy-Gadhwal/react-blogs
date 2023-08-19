@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const MyAxios = axios.create({
-  baseURL: 'http://localhost:3001/api/v1',
+  baseURL: 'https://node-blogs-1e7dyt5st-ajay-gadhwal.vercel.app/api/v1',
 });
 
 MyAxios.interceptors.request.use(
