@@ -28,7 +28,7 @@ const Register = () => {
     } else {
       UserService.register(formData).then((res) => {
         if (res) {
-          toast.warn("Woohoo, user successfully registered!");
+          toast.success("Woohoo, user successfully registered!");
           navigate("/login");
         } else {
           toast.error("Hoo, something wrong!");

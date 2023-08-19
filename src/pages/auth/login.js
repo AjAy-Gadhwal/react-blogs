@@ -32,7 +32,7 @@ const Login = () => {
           localStorage.setItem('role', res.role);
           localStorage.setItem('user', JSON.stringify(res));
 
-          toast.warn("Woohoo, user successfully login!");
+          toast.success("Woohoo, user successfully login!");
           navigate("/");
         } else {
           toast.error("Hoo, something wrong!");

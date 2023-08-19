@@ -30,7 +30,7 @@ const CreateBlog = () => {
       if (id) {
         BlogService.update(id, formData).then((res) => {
           if (res) {
-            toast.warn("Woohoo, blog updated successfully!");
+            toast.success("Woohoo, blog updated successfully!");
             navigate("/");
           } else {
             toast.error("Hoo, something wrong!");
@@ -39,7 +39,7 @@ const CreateBlog = () => {
       } else {
         BlogService.create(formData).then((res) => {
           if (res) {
-            toast.warn("Woohoo, blog created successfully!");
+            toast.success("Woohoo, blog created successfully!");
             navigate("/");
           } else {
             toast.error("Hoo, something wrong!");

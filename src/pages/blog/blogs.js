@@ -27,7 +27,7 @@ const Blogs = () => {
 
   const removeBlog = (id) => {
     BlogService.remove(id).then((res) => {
-      toast.warn("Blog removed");
+      toast.success("Blog removed");
       getAll();
     });
   };

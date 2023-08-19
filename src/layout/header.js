@@ -14,7 +14,7 @@ const Header = () => {
   const logout = () => {
     localStorage.clear();
     setTimeout(() => {
-      toast.warn("User successfully logout!");
+      toast.success("User successfully logout!");
       navigate('/login');
     }, 0);
   }
