@@ -27,11 +27,10 @@ const Register = () => {
       toast.error("Please enter valid data.");
     } else {
       UserService.register(formData).then((res) => {
-        if (res) {
+        console.log('res : ', res);
+        if (res && !res?.error) {
           toast.success("Woohoo, user successfully registered!");
           navigate("/login");
-        } else {
-          toast.error("Hoo, something wrong!");
         }
       });
     }

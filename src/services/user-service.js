@@ -1,6 +1,7 @@
 import MyAxios from "../config/myAxios";
 
 const register = async (body) => {
+  body['email'] = body?.email?.toLowerCase();
   const res = await MyAxios.post('/users/register', body);
   return res?.data ? res?.data : {};
 };
