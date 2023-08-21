@@ -1,23 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 const LoginGuard = ({ children }) => {
   const [status, setStatus] = useState(false);
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   const checkAuth = useCallback(async () => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
+    if (authContext.isAuth) {
       navigate(`/`);
     }
 
     setStatus(true);
     return;
-  }, [navigate]);
+  }, [navigate, authContext.isAuth]);
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, [checkAuth, authContext.isAuth]);
 
   return status ? <>{children}</> : <></>;
 }

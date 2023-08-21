@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { UserService } from "../../services/user-service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   const handleFormDataChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +33,7 @@ const Login = () => {
           localStorage.setItem('accessToken', res?.accessToken);
           localStorage.setItem('role', res.role);
           localStorage.setItem('user', JSON.stringify(res));
+          authContext.checkAuth();
 
           toast.success("Woohoo, user successfully login!");
           navigate("/");

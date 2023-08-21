@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BlogService } from "../../services/blog-service";
 import Blog from '../../components/blog/blog';
@@ -6,11 +6,13 @@ import { Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { PencilFill, Plus, Trash2Fill } from 'react-bootstrap-icons';
 import { Config } from '../../constants/config';
+import { AuthContext } from '../../context/authContext';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const [role, setRole] = useState('');
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+  const dataFetchedRef = useRef(false);
 
   const getAll = useCallback(() => {
     BlogService.getAll().then((res) => {
@@ -21,8 +23,10 @@ const Blogs = () => {
   }, [])
 
   useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+
     getAll();
-    setRole(localStorage.getItem('role'));
   }, [getAll]);
 
   const removeBlog = (id) => {
@@ -35,9 +39,9 @@ const Blogs = () => {
   return (
     <>
       {
-        role !== 'admin' ? (
+        authContext.role !== 'admin' ? (
           blogs.map((blog) => (
-            <Blog blog={blog}/>            
+            <Blog key={blog?._id} blog={blog}/>            
           ))
         ) : (
           <>

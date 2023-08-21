@@ -1,24 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/authContext";
 
 const Header = () => {
-  const [accessToken, setAccessToken] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('accessToken'));
-  }, []);
+  const authContext = useContext(AuthContext);
 
   const logout = () => {
     localStorage.clear();
+    authContext.checkAuth();
     setTimeout(() => {
       toast.success("User successfully logout!");
       navigate('/login');
     }, 0);
   }
-
 
   return (
     <Navbar sticky="top" expand="lg" className="bg-dark">
@@ -32,7 +29,7 @@ const Header = () => {
           <Nav className="gap-3">
             <Link to="/" className="text-decoration-none text-warning">Blogs</Link>
             {
-              accessToken ? (
+              authContext.isAuth ? (
                 <Link onClick={logout} className="text-decoration-none text-warning">Logout</Link>
               ) : (
                 <>
